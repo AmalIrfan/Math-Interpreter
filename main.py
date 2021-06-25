@@ -203,7 +203,7 @@ def visit_BinaryOpNode(node: BinaryOpNode):
     if node.op.type is TokenType.SLASH:
         return visit(node.left) / visit(node.right)
     if node.op.type is TokenType.CARET:
-        return visit(node.left) / visit(node.right)
+        return visit(node.left) ** visit(node.right)
 
 
 def visit_UnaryOpNode(node: UnaryOpNode):
@@ -216,8 +216,11 @@ def visit_UnaryOpNode(node: UnaryOpNode):
 # endregion #
 
 
-def main():
-    text = input("> ")
+def main(stdin):
+    print("Press <Ctrl-D> to Terminate input")
+    text = stdin.read()
+    if not text:
+        return
     tokens = generate_tokens(text)
     last_token, node = expr(tokens)
     assert last_token.type is TokenType.EOF
@@ -226,4 +229,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    from sys import stdin
+    main(stdin)
